@@ -590,6 +590,8 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
+                if global_step % 100 == 0:
+                    print("current train loss: %s" % (tr_loss / nb_tr_steps))
             print("train loss: %s" % (tr_loss/nb_tr_steps))
 
     # Save a trained model

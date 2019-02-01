@@ -449,11 +449,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def main():
     parser = argparse.ArgumentParser()
 
-    bert_tokenizer = "/Users/quantum/code/pytorch-pretrained-BERT/bert-base-chinese/bert_chinese_vocab.txt"
-    train_model = "/Users/quantum/code/pytorch-pretrained-BERT/bert-base-chinese/pytorch_model.bin"
-    bert_model = "/Users/quantum/code/pytorch-pretrained-BERT/bert-base-chinese/bert-base-chinese.tar.gz"
-    data_dir = "/Users/quantum/code/pytorch-pretrained-BERT/bert-base-chinese/"
-    max_seq_length = 128
+    bert_tokenizer = "/Users/quantum/Downloads/bert-base-chinese/bert_chinese_vocab.txt"
+    train_model = "/Users/quantum/Downloads/pytorch_model.bin"
+    bert_model = "/Users/quantum/Downloads/bert-base-chinese/bert-base-chinese.tar.gz"
+    data_dir = "/Users/quantum/Downloads/bert-base-chinese/"
+    max_seq_length = 256
     do_lower_case = False
 
     processors = {
@@ -546,7 +546,7 @@ def hello_world(qa):
     wnli = WNLIProcessor()
     web_examples = wnli.get_web_examples(qa.split(":")[0], qa.split(":")[1])
     eval_features = convert_web_examples_to_features(
-        web_examples, 128, tokenizer)
+        web_examples, 256, tokenizer)
     logger.info("***** Running evaluation *****")
     logger.info("  Num examples = %d", len(web_examples))
     all_input_ids = torch.tensor([f.input_ids for f in eval_features], dtype=torch.long)
@@ -572,6 +572,7 @@ def hello_world(qa):
             # tmp_eval_loss = model(input_ids, segment_ids, input_mask, label_ids)
             logits = model(input_ids, segment_ids, input_mask)
 
+        logits = torch.nn.Softmax(dim=-1)(logits)
         logits = logits.detach().cpu().numpy()
         print(logits)
         # print(dir(logits))
