@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+python run_classifier.py  --data_dir /home/yuanjun/code/pytorch-pretrained-BERT/data --bert_model bert-data-man --do_train --do_eval --task_name wnli --output_dir /home/yuanjun/code/pytorch-pretrained-BERT/model --num_train_epochs 3 --fp16 --max_seq_length 256

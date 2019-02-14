@@ -450,7 +450,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     bert_tokenizer = "/Users/quantum/Downloads/bert-base-chinese/bert_chinese_vocab.txt"
-    train_model = "/Users/quantum/Downloads/pytorch_model.bin"
+    train_model = "/Users/quantum/Downloads/2019224/pytorch_model_epoch_0.bin"
     bert_model = "/Users/quantum/Downloads/bert-base-chinese/bert-base-chinese.tar.gz"
     data_dir = "/Users/quantum/Downloads/bert-base-chinese/"
     max_seq_length = 256
