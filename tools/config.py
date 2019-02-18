@@ -1,0 +1,4 @@
+QA_DB_HOST = '192.168.101.243'
+QA_DB_USER = 'root'
+QA_DB_PASSWORD = "cdslyk912"
+QA_DB_NAME = "qa"

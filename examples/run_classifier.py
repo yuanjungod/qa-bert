@@ -564,6 +564,8 @@ def main():
         for epoch in trange(int(args.num_train_epochs), desc="Epoch"):
 
             tr_loss = 0
+            current_loss = 0
+            current_count = 0
             nb_tr_examples, nb_tr_steps = 0, 0
             for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration")):
                 batch = tuple(t.to(device) for t in batch)
@@ -580,8 +582,10 @@ def main():
                     loss.backward()
 
                 tr_loss += loss.item()
+                current_loss += loss.item()
                 nb_tr_examples += input_ids.size(0)
                 nb_tr_steps += 1
+                current_count += 1
                 if (step + 1) % args.gradient_accumulation_steps == 0:
                     # modify learning rate with special warm up BERT uses
                     lr_this_step = args.learning_rate * warmup_linear(global_step / t_total, args.warmup_proportion)
@@ -590,8 +594,12 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
-                if global_step % 100 == 0:
-                    print("current train loss: %s" % (tr_loss / nb_tr_steps))
+                if global_step % 100 == 0 and global_step > 1:
+                    print("current train loss: %s" % (current_loss / current_count))
+                    print("current total train loss: %s" % (tr_loss / nb_tr_steps))
+                    current_loss = 0
+                    current_count = 0
+
             print("train loss: %s" % (tr_loss/nb_tr_steps))
 
             # Save a trained model
