@@ -402,13 +402,13 @@ def hello_world(q_json_str):
     logits_dict = dict()
     for i in range(len(answer_list)):
         logits_dict[answer_list[i][0]] = 0.7*logits_list[i][0] + answer_list[i][2]*0.3
-        logits_list[i] = 0.7*logits_list[i][0] + answer_list[i][2]*0.3
+        logits_list[i] = 0.6*logits_list[i][0] + answer_list[i][2]*0.4
 
     test_list = list()
     for i in range(len(es_retrieval_result)):
         test_list.append([answer_list[i][1], logits_list[i], answer_list[i][2], answer_list[i][3]])
 
-    print("consume: %s" % (time.time()-start))
+    print("consume: %s" % (time.time()-start), logits_dict)
 
     # return jsonify(logits_dict)
     return jsonify(test_list)
